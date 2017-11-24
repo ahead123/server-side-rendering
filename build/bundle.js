@@ -221,6 +221,8 @@ var _reactRouterDom = __webpack_require__(1);
 
 var _reactRedux = __webpack_require__(2);
 
+var _reactRouterConfig = __webpack_require__(19);
+
 var _Routes = __webpack_require__(11);
 
 var _Routes2 = _interopRequireDefault(_Routes);
@@ -234,7 +236,11 @@ exports.default = function (req, store) {
 		_react2.default.createElement(
 			_reactRouterDom.StaticRouter,
 			{ location: req.path, context: {} },
-			_react2.default.createElement(_Routes2.default, null)
+			_react2.default.createElement(
+				'div',
+				null,
+				(0, _reactRouterConfig.renderRoutes)(_Routes2.default)
+			)
 		)
 	));
 
@@ -262,8 +268,6 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(1);
-
 var _Home = __webpack_require__(12);
 
 var _Home2 = _interopRequireDefault(_Home);
@@ -278,15 +282,17 @@ var _UsersList2 = _interopRequireDefault(_UsersList);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function () {
-	return _react2.default.createElement(
-		'div',
-		null,
-		_react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Home2.default }),
-		_react2.default.createElement(_reactRouterDom.Route, { path: '/test-users', component: _Test2.default }),
-		_react2.default.createElement(_reactRouterDom.Route, { path: '/users', component: _UsersList2.default })
-	);
-};
+exports.default = [{
+	path: '/',
+	component: _Home2.default,
+	exact: true
+}, {
+	path: '/users',
+	component: _UsersList2.default
+}, {
+	path: '/test',
+	component: _Test2.default
+}];
 
 /***/ }),
 /* 12 */
@@ -626,6 +632,12 @@ exports.default = function () {
 			return state;
 	}
 };
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports) {
+
+module.exports = require("react-router-config");
 
 /***/ })
 /******/ ]);
