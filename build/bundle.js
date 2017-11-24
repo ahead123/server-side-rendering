@@ -231,13 +231,15 @@ app.get('*', function (req, res) {
 	// looks at routes the user is trying to visit
 	// and returns an array of components that 
 	// are about to be rendered
-	(0, _reactRouterConfig.matchRoutes)(_Routes2.default, req.path).map(function (_ref) {
+	var promises = (0, _reactRouterConfig.matchRoutes)(_Routes2.default, req.path).map(function (_ref) {
 		var route = _ref.route;
 
-		return route.loadData ? route.loadData() : null;
+		return route.loadData ? route.loadData(store) : null;
 	});
 
-	res.send((0, _renderer2.default)(req, store));
+	Promise.all(promises).then(function () {
+		res.send((0, _renderer2.default)(req, store));
+	});
 });
 
 app.listen(3000, function () {
@@ -511,8 +513,8 @@ function mapStateToProps(state) {
 	return { users: state.users };
 }
 
-function loadData() {
-	console.log('I\'m trying to load some data,');
+function loadData(store) {
+	return store.dispatch((0, _actions.fetchUsers)());
 }
 
 exports.loadData = loadData;
