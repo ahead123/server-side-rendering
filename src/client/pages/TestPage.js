@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 
-export default class Test extends Component {
+class TestPage extends Component {
 
 	constructor(props){
 		super(props);
@@ -61,4 +61,8 @@ export default class Test extends Component {
 		}
 		
 	}
+}
+
+export default {
+	component: TestPage
 }
