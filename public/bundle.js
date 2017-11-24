@@ -8231,7 +8231,7 @@ var _reducers2 = _interopRequireDefault(_reducers);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var store = (0, _redux.createStore)(_reducers2.default, {}, (0, _redux.applyMiddleware)(_reduxThunk2.default));
+var store = (0, _redux.createStore)(_reducers2.default, window.INITIAL_STATE, (0, _redux.applyMiddleware)(_reduxThunk2.default));
 
 (0, _reactDom.hydrate)(_react2.default.createElement(
 	_reactRedux.Provider,
@@ -37988,15 +37988,15 @@ var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _HomePage = __webpack_require__(480);
+var _HomePage = __webpack_require__(457);
 
 var _HomePage2 = _interopRequireDefault(_HomePage);
 
-var _TestPage = __webpack_require__(481);
+var _TestPage = __webpack_require__(458);
 
 var _TestPage2 = _interopRequireDefault(_TestPage);
 
-var _UsersListPage = __webpack_require__(482);
+var _UsersListPage = __webpack_require__(477);
 
 var _UsersListPage2 = _interopRequireDefault(_UsersListPage);
 
@@ -38012,8 +38012,181 @@ exports.default = [_extends({}, _HomePage2.default, {
 })];
 
 /***/ }),
-/* 457 */,
-/* 458 */,
+/* 457 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(6);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var HomePage = function HomePage() {
+	return _react2.default.createElement(
+		'div',
+		null,
+		_react2.default.createElement(
+			'div',
+			null,
+			'I\'m the only Home component'
+		),
+		_react2.default.createElement(
+			'button',
+			{
+				onClick: function onClick() {
+					return console.log('Hi there');
+				}
+			},
+			'Press Me!'
+		)
+	);
+};
+
+exports.default = {
+	component: HomePage
+};
+
+/***/ }),
+/* 458 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(6);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _axios = __webpack_require__(175);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var TestPage = function (_Component) {
+	_inherits(TestPage, _Component);
+
+	function TestPage(props) {
+		_classCallCheck(this, TestPage);
+
+		var _this = _possibleConstructorReturn(this, (TestPage.__proto__ || Object.getPrototypeOf(TestPage)).call(this, props));
+
+		_this.state = {
+			users: []
+		};
+		_this.showUsers = _this.showUsers.bind(_this);
+		_this.getUsers = _this.getUsers.bind(_this);
+		return _this;
+	}
+
+	_createClass(TestPage, [{
+		key: 'componentWillMount',
+		value: function componentWillMount() {}
+	}, {
+		key: 'showUsers',
+		value: function showUsers() {
+			var users = this.state.users;
+
+			var peeps = [];
+			users.map(function (user, index) {
+				return peeps.push(_react2.default.createElement(
+					'li',
+					{ key: user.id },
+					user.name
+				));
+			});
+			return _react2.default.createElement(
+				'ul',
+				null,
+				peeps
+			);
+		}
+	}, {
+		key: 'getUsers',
+		value: function getUsers() {
+			var _this2 = this;
+
+			_axios2.default.get('https://react-ssr-api.herokuapp.com/users').then(function (users) {
+				_this2.setState({ users: users.data });
+				console.log(_this2.state);
+			}).catch(function (error) {
+				return console.log(error);
+			});
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var _this3 = this;
+
+			console.log(this.state);
+			if (this.state.users.length) {
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(
+						'h1',
+						null,
+						'Users:'
+					),
+					this.showUsers(),
+					_react2.default.createElement(
+						'button',
+						{
+							onClick: function onClick() {
+								return _this3.setState({ users: [] });
+							}
+						},
+						'Hide Users'
+					)
+				);
+			} else {
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(
+						'h1',
+						null,
+						'Click to get users'
+					),
+					_react2.default.createElement(
+						'button',
+						{
+							onClick: this.getUsers
+						},
+						'Get users'
+					)
+				);
+			}
+		}
+	}]);
+
+	return TestPage;
+}(_react.Component);
+
+exports.default = {
+	component: TestPage
+};
+
+/***/ }),
 /* 459 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -38882,231 +39055,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 477 */,
-/* 478 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _redux = __webpack_require__(113);
-
-var _usersReducer = __webpack_require__(479);
-
-var _usersReducer2 = _interopRequireDefault(_usersReducer);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = (0, _redux.combineReducers)({
-	users: _usersReducer2.default
-});
-
-/***/ }),
-/* 479 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _actions = __webpack_require__(181);
-
-exports.default = function () {
-	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null || [];
-	var action = arguments[1];
-
-	switch (action.type) {
-		case _actions.FETCH_USERS:
-			return action.payload.data;
-		default:
-			return state;
-	}
-};
-
-/***/ }),
-/* 480 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _react = __webpack_require__(6);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var HomePage = function HomePage() {
-	return _react2.default.createElement(
-		'div',
-		null,
-		_react2.default.createElement(
-			'div',
-			null,
-			'I\'m the only Home component'
-		),
-		_react2.default.createElement(
-			'button',
-			{
-				onClick: function onClick() {
-					return console.log('Hi there');
-				}
-			},
-			'Press Me!'
-		)
-	);
-};
-
-exports.default = {
-	component: HomePage
-};
-
-/***/ }),
-/* 481 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(6);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _axios = __webpack_require__(175);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var TestPage = function (_Component) {
-	_inherits(TestPage, _Component);
-
-	function TestPage(props) {
-		_classCallCheck(this, TestPage);
-
-		var _this = _possibleConstructorReturn(this, (TestPage.__proto__ || Object.getPrototypeOf(TestPage)).call(this, props));
-
-		_this.state = {
-			users: []
-		};
-		_this.showUsers = _this.showUsers.bind(_this);
-		_this.getUsers = _this.getUsers.bind(_this);
-		return _this;
-	}
-
-	_createClass(TestPage, [{
-		key: 'componentWillMount',
-		value: function componentWillMount() {}
-	}, {
-		key: 'showUsers',
-		value: function showUsers() {
-			var users = this.state.users;
-
-			var peeps = [];
-			users.map(function (user, index) {
-				return peeps.push(_react2.default.createElement(
-					'li',
-					{ key: user.id },
-					user.name
-				));
-			});
-			return _react2.default.createElement(
-				'ul',
-				null,
-				peeps
-			);
-		}
-	}, {
-		key: 'getUsers',
-		value: function getUsers() {
-			var _this2 = this;
-
-			_axios2.default.get('https://react-ssr-api.herokuapp.com/users').then(function (users) {
-				_this2.setState({ users: users.data });
-				console.log(_this2.state);
-			}).catch(function (error) {
-				return console.log(error);
-			});
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var _this3 = this;
-
-			console.log(this.state);
-			if (this.state.users.length) {
-				return _react2.default.createElement(
-					'div',
-					null,
-					_react2.default.createElement(
-						'h1',
-						null,
-						'Users:'
-					),
-					this.showUsers(),
-					_react2.default.createElement(
-						'button',
-						{
-							onClick: function onClick() {
-								return _this3.setState({ users: [] });
-							}
-						},
-						'Hide Users'
-					)
-				);
-			} else {
-				return _react2.default.createElement(
-					'div',
-					null,
-					_react2.default.createElement(
-						'h1',
-						null,
-						'Click to get users'
-					),
-					_react2.default.createElement(
-						'button',
-						{
-							onClick: this.getUsers
-						},
-						'Get users'
-					)
-				);
-			}
-		}
-	}]);
-
-	return TestPage;
-}(_react.Component);
-
-exports.default = {
-	component: TestPage
-};
-
-/***/ }),
-/* 482 */
+/* 477 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39196,6 +39145,54 @@ exports.default = {
 	loadData: loadData,
 	component: (0, _reactRedux.connect)(mapStateToProps, { fetchUsers: _actions.fetchUsers })(UsersListPage)
 
+};
+
+/***/ }),
+/* 478 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _redux = __webpack_require__(113);
+
+var _usersReducer = __webpack_require__(479);
+
+var _usersReducer2 = _interopRequireDefault(_usersReducer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = (0, _redux.combineReducers)({
+	users: _usersReducer2.default
+});
+
+/***/ }),
+/* 479 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _actions = __webpack_require__(181);
+
+exports.default = function () {
+	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null || [];
+	var action = arguments[1];
+
+	switch (action.type) {
+		case _actions.FETCH_USERS:
+			return action.payload.data;
+		default:
+			return state;
+	}
 };
 
 /***/ })
