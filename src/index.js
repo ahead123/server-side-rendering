@@ -17,8 +17,9 @@ app.get('*', (req, res) => {
 	// looks at routes the user is trying to visit
 	// and returns an array of components that 
 	// are about to be rendered
-
-	matchRoutes(Routes, req.path);
+	matchRoutes(Routes, req.path).map(({ route }) => {
+		return route.loadData ? route.loadData() : null;
+	});
 
 	res.send(renderer(req, store));
 });
